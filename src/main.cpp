@@ -19,17 +19,18 @@ vex::controller Controller1 = vex::controller(vex::controllerType::primary);
 // Drive motors (4 motor drivetrain)
 vex::motor LeftFront = vex::motor(vex::PORT1, vex::ratio18_1, false);
 vex::motor LeftBack = vex::motor(vex::PORT2, vex::ratio18_1, false);
+vex::motor_group LeftDriveSmart = vex::motor_group(LeftFront, LeftBack);
 vex::motor RightFront = vex::motor(vex::PORT3, vex::ratio18_1, true);
 vex::motor RightBack = vex::motor(vex::PORT4, vex::ratio18_1, true);
+vex::motor_group RightDriveSmart = vex::motor_group(RightFront, RightBack);
 
 // Claw motor
 vex::motor ClawMotor = vex::motor(vex::PORT5, vex::ratio36_1, false);
 
 // Arm motor
 vex::motor ArmMotor = vex::motor(vex::PORT6, vex::ratio36_1, false);
+vex::drivetrain Drivetrain = vex::drivetrain(LeftDriveSmart, RightDriveSmart, 319.19, 295, 40, vex::mm, 1);
 
-// Drivetrain
-vex::drivetrain Drivetrain = vex::drivetrain(LeftFront, RightFront, LeftBack, RightBack, 319.19, 295, 40, vex::mm, 1);
 
 void openClaw() {
     ClawMotor.spin(vex::forward, 100, vex::percent);
@@ -83,10 +84,8 @@ void driverControl() {
         int leftSpeed = Controller1.Axis3.position() + Controller1.Axis1.position();
         int rightSpeed = Controller1.Axis3.position() - Controller1.Axis1.position();
         
-        LeftFront.spin(vex::forward, leftSpeed, vex::percent);
-        LeftBack.spin(vex::forward, leftSpeed, vex::percent);
-        RightFront.spin(vex::forward, rightSpeed, vex::percent);
-        RightBack.spin(vex::forward, rightSpeed, vex::percent);
+        LeftDriveSmart.spin(vex::forward, leftSpeed, vex::percent);
+        RightDriveSmart.spin(vex::forward, rightSpeed, vex::percent);
         
         if (Controller1.ButtonR1.pressing()) {
             ClawMotor.spin(vex::forward, 100, vex::percent);
