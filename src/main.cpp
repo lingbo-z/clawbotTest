@@ -33,25 +33,25 @@ vex::drivetrain Drivetrain = vex::drivetrain(LeftDrive, RightDrive, 319.19, 295,
 void openClaw() {
     ClawMotor.spin(vex::forward, 100, vex::percent);
     vex::wait(500, vex::msec);
-    ClawMotor.stop();
+    ClawMotor.stop(brakeType::hold);
 }
 
 void closeClaw() {
     ClawMotor.spin(vex::reverse, 100, vex::percent);
     vex::wait(500, vex::msec);
-    ClawMotor.stop();
+    ClawMotor.stop(brakeType::hold);
 }
 
 void raiseArm() {
     ArmMotor.spin(vex::forward, 50, vex::percent);
     vex::wait(1000, vex::msec);
-    ArmMotor.stop();
+    ArmMotor.stop(brakeType::hold);
 }
 
 void lowerArm() {
     ArmMotor.spin(vex::reverse, 50, vex::percent);
     vex::wait(1000, vex::msec);
-    ArmMotor.stop();
+    ArmMotor.stop(brakeType::hold);
 }
 
 void autonomous() {
@@ -78,6 +78,7 @@ void autonomous() {
 }
 
 void driverControl() {
+    //when in driver control 
     while (true) {
         int leftSpeed = Controller1.Axis3.position() + Controller1.Axis1.position();
         int rightSpeed = Controller1.Axis3.position() - Controller1.Axis1.position();
@@ -90,15 +91,18 @@ void driverControl() {
         } else if (Controller1.ButtonR2.pressing()) {
             ClawMotor.spin(vex::reverse, 100, vex::percent);
         } else {
-            ClawMotor.stop();
+            ClawMotor.stop(brakeType::hold);
         }
         
+        //When Controller Button L1 is being pressed, the arm motor will move up
+        //When Controller Button L2 is being pressed, the arm motor will move down
+        //Otherwise, the arm motor will not move
         if (Controller1.ButtonL1.pressing()) {
             ArmMotor.spin(vex::forward, 50, vex::percent);
         } else if (Controller1.ButtonL2.pressing()) {
             ArmMotor.spin(vex::reverse, 50, vex::percent);
         } else {
-            ArmMotor.stop();
+            ArmMotor.stop(brakeType::hold);
         }
         
         vex::wait(20, vex::msec);
