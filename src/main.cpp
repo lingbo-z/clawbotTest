@@ -18,18 +18,16 @@ vex::controller Controller1 = vex::controller(vex::controllerType::primary);
 
 // Drive motors (4 motor drivetrain)
 vex::motor LeftFront = vex::motor(vex::PORT1, vex::ratio18_1, false);
-vex::motor LeftBack = vex::motor(vex::PORT2, vex::ratio18_1, false);
-vex::motor_group LeftDriveSmart = vex::motor_group(LeftFront, LeftBack);
+vex::motor_group LeftDrive = vex::motor_group(LeftFront);
 vex::motor RightFront = vex::motor(vex::PORT3, vex::ratio18_1, true);
-vex::motor RightBack = vex::motor(vex::PORT4, vex::ratio18_1, true);
-vex::motor_group RightDriveSmart = vex::motor_group(RightFront, RightBack);
+vex::motor_group RightDrive = vex::motor_group(RightFront);
 
 // Claw motor
 vex::motor ClawMotor = vex::motor(vex::PORT5, vex::ratio36_1, false);
 
 // Arm motor
 vex::motor ArmMotor = vex::motor(vex::PORT6, vex::ratio36_1, false);
-vex::drivetrain Drivetrain = vex::drivetrain(LeftDriveSmart, RightDriveSmart, 319.19, 295, 40, vex::mm, 1);
+vex::drivetrain Drivetrain = vex::drivetrain(LeftDrive, RightDrive, 319.19, 295, 40, vex::mm, 1);
 
 
 void openClaw() {
